@@ -43,6 +43,10 @@ exports.downloadFile = async (req, res, next) => {
     
     //get link
     const link = await Link.findOne({ name: file })
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4e34555fbba0a881847ddc992c1c03e27150ddb5
     
     const fileDownload = __dirname + "/../uploads/" + file;
     res.download(fileDownload);
