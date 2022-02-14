@@ -13,7 +13,6 @@ exports.createUser = async (req, res)=>{
     //verify if user is already authenticated
     const { email, password } = req.body;
     let user = await User.findOne({ email });
-
     if(user) {
         res.status(400).json({ msg: 'User already exist' });
     }

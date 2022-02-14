@@ -19,10 +19,14 @@ exports.authenticateUser = async (req, res, next)=>{
         res.status(401).json({ msg: "User do not exist" });
         return next();
     }
-    
+
+
     //verify password
-    if(bcrypt.compareSync(password, user.password)) {
-        //--AUTH USER--
+    const isCorrectPass = bcrypt.compareSync(password, user.password);
+    if(!isCorrectPass) {
+        res.status(400).json({ msg: "Incorrect password" });
+        return next();
+    }
         
         // create JWT
         const token = jwt.sign({
@@ -33,13 +37,10 @@ exports.authenticateUser = async (req, res, next)=>{
             expiresIn: '8h'
         });
         res.json({ token });
-    
-    } else {
-        res.status(400).json({ msg: "Incorrect password" });
-        return next();
+
     }
 };
 
-exports.userAuthenticated = (req, res, next)=>{
+exports.userAuthenticated = (req, res)=>{
     res.json({ user: req.user });
 };
