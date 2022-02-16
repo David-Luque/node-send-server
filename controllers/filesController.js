@@ -15,23 +15,22 @@ exports.uploadFile = async (req, res, next)=>{
                 cb(null, __dirname + '/../uploads')
             },
             filename: (req, file, cb)=>{
-                const extension = file.originalname.substr(file.originalname.lastIndexOf('.'), file.originalname.length);
-                cb(null, `${shortId.generate()}.${extension}`);
+                const extension = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+                cb(null, `${shortId.generate()}${extension}`);
             },
             // fileFilter: (req, file, cb)=>{
             //     if(file.mimetype === 'application/pdf') {
             //         return cb(null, true)
             //     }
             // }
-            //THIS MEANS THAT WE DO NOT ACCEPT PDF FILES. THE "true" MEANS AN ERROR
+            //THIS MEANS THAT WE DO NOT ACCEPT PDF FILES. THE "true" ARGUMENT MEANS AN ERROR
         })
     };
 
     const upload = multer(multerCongif).single('theFile');
 
     upload(req, res, async(error) => {
-        console.log(req.file);
-        
+        //console.log(req.file);
         if(!error) {
             res.json({ file: req.file.filename });
         } else {
